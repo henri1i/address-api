@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidCepException;
 use App\Http\Requests\ListAddressesRequest;
 use App\Models\Address;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\AddressRepository;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\UpdateAddressRequest;
 use App\Http\Resources\AddressResource;
-use App\Services\AddressService;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class AddressController extends Controller
 {
     public function __construct(public AddressRepository $repository) {}
 
-    public function index(ListAddressesRequest $request)
+    public function index(ListAddressesRequest $request): AnonymousResourceCollection
     {
-        return AddressResource::collection($this->repository->getPaginatedAddresses(auth()->user(), $request->input('per_page', 15)));
+        return AddressResource::collection($this->repository->getPaginatedAddresses(auth()->user(), $request->input('per_page')));
     }
 
     public function store(StoreAddressRequest $request): JsonResponse
@@ -29,25 +29,25 @@ class AddressController extends Controller
         try {
             $address = $this->repository->createAddress($validated, auth()->user());
         } catch(InvalidCepException $e) {
-            return response()->json(['message' => $e->getMessage()], 422);
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return response()->json($address, 201);
+        return response()->json($address, Response::HTTP_CREATED);
     }
 
-    public function show(Address $address)
+    public function show(Address $address): AddressResource
     {
-        return new AddressResource($address);
+        return AddressResource::make($address);
     }
 
-    public function update(UpdateAddressRequest $request, Address $address)
+    public function update(UpdateAddressRequest $request, Address $address): JsonResponse
     {
         $validated = $request->validated();
 
         try {
             $address = $this->repository->updateAddress($address, $validated);
         } catch (InvalidCepException $e) {
-            return response()->json(['message' => $e->getMessage()], 422);
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return response()->json($address);

@@ -23,10 +23,8 @@ class CepRepository
 
     public function destroyWhenCepHasNoAddresses(Cep $cep): bool
     {
-        if (!$cep->addresses()->count()) {
-            return $cep->delete();
-        }
-
-        return false;
+        return $cep->address->count()
+            ? false
+            : $cep->delete();
     }
 }

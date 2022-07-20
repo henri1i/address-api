@@ -12,7 +12,7 @@ class AddressRepository
 {
     public function __construct(public CepRepository $repository, public CepApiService $service) {}
 
-    public function getPaginatedAddresses(User $user, int $perPage): LengthAwarePaginator
+    public function getPaginatedAddresses(User $user, ?int $perPage = 15): LengthAwarePaginator
     {
         return $user->addresses()
             ->paginate($perPage);

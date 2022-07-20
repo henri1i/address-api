@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AddressControllerTest extends TestCase
 {
@@ -151,7 +152,7 @@ class AddressControllerTest extends TestCase
     public function it_creates_an_address_based_on_the_given_cep()
     {
         $cepNumber = '12345678';
-        Http::fake(['*' => Http::response($cep = Cep::factory(['number' => $cepNumber])->create(), 201)]);
+        Http::fake(['*' => Http::response($cep = Cep::factory(['number' => $cepNumber])->create(), Response::HTTP_CREATED)]);
 
         $this->postJson(route('addresses.store'), [
             'house_number'    => 500,
@@ -159,7 +160,7 @@ class AddressControllerTest extends TestCase
             'token'           => $this->token,
             'reference_point' => 'Between the library and the coffee shop',
         ])
-            ->status(201);
+            ->status(Response::HTTP_CREATED);
 
         $this->assertEquals(Address::first()->cep->id, $cep->id);
         Http::assertNothingSent();

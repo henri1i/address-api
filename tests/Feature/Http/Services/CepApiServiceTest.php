@@ -10,6 +10,7 @@ use App\Services\CepApiService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CepApiServiceTest extends TestCase
 {
@@ -33,7 +34,7 @@ class CepApiServiceTest extends TestCase
         $this->expectException(InvalidCepException::class);
 
         Http::fake([
-            '*' => Http::response([], 400)
+            '*' => Http::response([], Response::HTTP_BAD_REQUEST)
         ]);
 
         (new CepApiService(new CepRepository))->createCep('12345678');;
@@ -43,7 +44,7 @@ class CepApiServiceTest extends TestCase
     public function it_creates_cep_according_to_api_response()
     {
         Http::fake([
-            '*' => Http::response(json_decode(File::get(base_path('tests/Fixture/Services/ViaCepApi.json')), true), 200)
+            '*' => Http::response(json_decode(File::get(base_path('tests/Fixture/Services/ViaCepApi.json')), true), Response::HTTP_OK)
         ]);
 
         (new CepApiService(new CepRepository))->createCep('12345678');
