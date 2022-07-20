@@ -13,7 +13,7 @@ class CepRepository
 
     public function getCepByNumber(string $cep): ?Cep
     {
-        return Cep::where('number', $cep)->first();
+        return Cep::query()->whereRaw("REPLACE(number, '-', '') = ?", [$cep])->first();
     }
 
     public function cepExists(string $cepNumber): bool

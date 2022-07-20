@@ -32,7 +32,9 @@ class AddressController extends Controller
             return response()->json(['message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return response()->json($address, Response::HTTP_CREATED);
+        return AddressResource::make($address)
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function show(Address $address): AddressResource
