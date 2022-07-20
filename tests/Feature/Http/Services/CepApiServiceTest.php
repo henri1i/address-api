@@ -4,7 +4,7 @@ namespace Tests\Feature\Http\Services;
 
 use App\Models\Cep;
 use Tests\TestCase;
-use App\Exceptions\InvalidCep;
+use App\Exceptions\InvalidCepException;
 use App\Repositories\CepRepository;
 use App\Services\CepApiService;
 use Illuminate\Support\Facades\File;
@@ -30,7 +30,7 @@ class CepApiServiceTest extends TestCase
     /** @test */
     public function it_throws_an_exception_when_the_response_is_not_as_the_expected()
     {
-        $this->expectException(InvalidCep::class);
+        $this->expectException(InvalidCepException::class);
 
         Http::fake([
             '*' => Http::response([], 400)

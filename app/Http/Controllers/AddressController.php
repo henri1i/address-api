@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\InvalidCep;
+use App\Exceptions\InvalidCepException;
 use App\Http\Requests\ListAddressesRequest;
 use App\Models\Address;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class AddressController extends Controller
 
         try {
             $address = $this->repository->createAddress($validated, auth()->user());
-        } catch(InvalidCep $e) {
+        } catch(InvalidCepException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
         }
 
@@ -46,7 +46,7 @@ class AddressController extends Controller
 
         try {
             $address = $this->repository->updateAddress($address, $validated);
-        } catch (InvalidCep $e) {
+        } catch (InvalidCepException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
         }
 

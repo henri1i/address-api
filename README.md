@@ -6,12 +6,12 @@
 
 ### **Authentication**
 
-|          | Endpoint              | Payload                                      | Verb |
+|          |  Body              | Payload                                      | Verb |
 |----------|-----------------------|----------------------------------------------|------|
-| Register | .../api/auth/register | name, email, password, password_confirmation | POST |
-| Login    | .../api/auth/login    | email, password                              | POST |
-| Logout   | .../api/auth/logout   | token                                        | POST |
-| Refresh  | .../api/auth/refresh  | token                                        | POST |
+| Register | /api/auth/register | name, email, password, password_confirmation | POST |
+| Login    | /api/auth/login    | email, password                              | POST |
+| Logout   | /api/auth/logout   | token                                        | POST |
+| Refresh  | /api/auth/refresh  | token                                        | POST |
 
 
 <br>
@@ -19,13 +19,13 @@
 ### **Addresses**
 
 
-|         | Endpoint                                                                                                                              | Payload                                   | Verb   |
-|---------|---------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|--------|
-| Index   | .../api/addresses                                                                                                                     | token, (per_page)                         | GET    |
-| Show    | .../api/addresses/{id}                                                                                                                | token                                     | GET     |
-| Store   | .../api/addresses                                                                                                                     | token, cep, house_number, reference_point | POST   |
-| Update  | .../api/addresses/{id}                                                                                                                | token, (fields to be updated)             | PUT    |
-| Destroy | .../api/addresses/{id}                                                                                                                | token                                     | DELETE |
+|         | Endpoint                                                                                                                              | Body                                   | Verb   |
+|---------|------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|--------|
+| Index   | /api/addresses                                                                                                                     | token, ?per_page                         | GET    |
+| Show    | /api/addresses/{id}                                                                                                                | token                                     | GET     |
+| Store   | /api/addresses                                                                                                                     | token, cep, house_number, reference_point | POST   |
+| Update  | /api/addresses/{id}                                                                                                                | token, ?fields to be updated               | PUT    |
+| Destroy | /api/addresses/{id}                                                                                                                | token                                     | DELETE |
 
 ## Downloading and setting up the project
 

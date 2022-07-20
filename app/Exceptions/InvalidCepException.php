@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class InvalidCep extends Exception
+class InvalidCepException extends Exception
 {
     //
 }

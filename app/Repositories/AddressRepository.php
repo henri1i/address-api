@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\InvalidCep;
 use App\Models\User;
 use App\Models\Address;
 use App\Models\Cep;

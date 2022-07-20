@@ -129,19 +129,18 @@ class AddressControllerTest extends TestCase
      * @test
      * @group create
      */
-    public function it_returns_and_error_message_after_a_bad_api_request()
+    public function it_returns_an_error_message_after_a_bad_api_request()
     {
         $cep = "12345678";
 
         Http::fake(['*' => Http::response(['erro' => true])]);
 
-        $response = $this->postJson(route('addresses.store'), [
+        $this->postJson(route('addresses.store'), [
             'house_number'    => 500,
             'cep'             => $cep,
             'token'           => $this->token,
             'reference_point' => 'Next to the coffee shop',
         ])
-            ->assertStatus(422)
             ->assertJson(['message' => 'CEP field must be valid.']);
     }
 

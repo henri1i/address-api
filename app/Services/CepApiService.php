@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\InvalidCep;
+use App\Exceptions\InvalidCepException;
 use App\Models\Cep;
 use App\Repositories\CepRepository;
 use Illuminate\Support\Facades\Http;
@@ -22,11 +22,11 @@ class CepApiService
         $response = $this->fetch($cep);
 
         if (! $response->successful()) {
-            throw new InvalidCep('CEP field must be valid.');
+            throw new InvalidCepException('CEP field must be valid.');
         }
 
         if ($response->json('erro')) {
-            throw new InvalidCep('CEP field must be valid.');
+            throw new InvalidCepException('CEP field must be valid.');
         }
 
         return $this->repository->createCep([
@@ -34,7 +34,7 @@ class CepApiService
             'street'   => $response->json('logradouro'),
             'district' => $response->json('bairro'),
             'city'     => $response->json('localidade'),
-            'state'    => $response->json('uf')
+            'state'    => $response->json('uf'),
         ]);
     }
 
