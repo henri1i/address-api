@@ -10,5 +10,4 @@ Route::controller(AuthController::class)->prefix('auth')->name('auth.')->group(f
 });
 
 Route::apiResource('addresses', AddressController::class)
-    ->middleware('auth:api')
-    ->only(['index', 'store', 'show', 'update', 'destroy']);
+    ->middleware('auth:api');
