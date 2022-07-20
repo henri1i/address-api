@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterAuthRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -43,14 +44,8 @@ class AuthController extends Controller
         return $this->makeResponse(auth()->user(), $token);
     }
 
-    public function register(Request $request): JsonResponse
+    public function register(RegisterAuthRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'confirmed', Password::min(8)],
-        ]);
-
         $user = User::create([
             ...$request->except('password'),
             'password' => Hash::make($request->password),

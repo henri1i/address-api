@@ -6,7 +6,6 @@ use App\Models\Cep;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class AddressSeeder extends Seeder
 {
