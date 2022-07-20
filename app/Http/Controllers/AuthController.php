@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterAuthRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use PHPOpenSourceSaver\JWTAuth\Contracts\Providers\Auth as ProvidersAuth;
@@ -62,7 +63,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function refresh(Request $request)
+    public function refresh(Request $request): JsonResponse
     {
         return response()->json([
             'user' => auth()->user(),
@@ -71,5 +72,12 @@ class AuthController extends Controller
                 'type'  => 'bearer',
             ]
         ]);
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        auth()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

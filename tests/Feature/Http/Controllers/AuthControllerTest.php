@@ -98,5 +98,19 @@ class AuthControllerTest extends TestCase
         $response = $this->postJson(route('auth.refresh'), ['token' => $token]);
 
         $this->assertNotEquals($token, $response->json('auth.token'));
+        $this->assertEquals($user->id, JWTAuth::user()->id);
+    }
+
+    /** @test */
+    public function user_can_logout()
+    {
+        $user = User::factory()
+            ->create();
+
+        $token = JWTAuth::fromUser($user);
+
+        $response = $this->postJson(route('auth.logout'), ['token' => $token]);
+
+        $response->assertOk();
     }
 }
