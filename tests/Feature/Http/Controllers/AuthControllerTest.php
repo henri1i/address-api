@@ -5,6 +5,9 @@ namespace Test\Feature\Http\Controllers;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+
+use function PHPUnit\Framework\assertNotEquals;
 
 class AuthControllerTest extends TestCase
 {
@@ -82,5 +85,18 @@ class AuthControllerTest extends TestCase
         $response->assertOk()
             ->assertJsonStructure(['user', 'auth' => ['token', 'type']]);
         $this->assertAuthenticatedAs($user);
+    }
+
+    /** @test */
+    public function can_refresh_token()
+    {
+        $user = User::factory()
+            ->create();
+
+        $token = JWTAuth::fromUser($user);
+
+        $response = $this->postJson(route('auth.refresh'), ['token' => $token]);
+
+        $this->assertNotEquals($token, $response->json('auth.token'));
     }
 }

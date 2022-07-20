@@ -14,11 +14,6 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\Providers\Auth as ProvidersAuth;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
-
     public function login(Request $request): JsonResponse
     {
         $credentials = $request->validate([
@@ -62,6 +57,17 @@ class AuthController extends Controller
             'user'    => $user,
             'auth' => [
                 'token' => $token,
+                'type'  => 'bearer',
+            ]
+        ]);
+    }
+
+    public function refresh(Request $request)
+    {
+        return response()->json([
+            'user' => auth()->user(),
+            'auth' => [
+                'token' => auth()->refresh(),
                 'type'  => 'bearer',
             ]
         ]);
