@@ -2,4 +2,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => '');
+Route::get('/', fn () => 'Everything is woking fine!');
